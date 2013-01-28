@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="author" content="Thomas Lauria">
+    <meta http-equiv="Content-Type" content= "text/html; charset=UTF-8">
+    <title>ExtJS Image Crop Test - ExtJS 4</title>
+	  <script src="http://extjs.cachefly.net/ext-4.1.1-gpl/ext-all-debug.js"></script>
+	  <link rel="stylesheet" href="http://extjs.cachefly.net/ext-4.1.1-gpl/resources/css/ext-all.css">
+    <script type="text/javascript" src="Ext.ux.ImageCrop.js"></script>
+    <script type="text/javascript" src="Extamples.CropWindow.js"></script>
+    <style type="text/css">
+      *{margin:0;padding:0;}
+      h1,h2,h3,p{margin-bottom:10px;}
+      .config-hint {color:#CF8788;}
+    </style>
+  </head>
+  <body style="padding:20px;">
+    <h1>Ext JS Image Crop Utility - <span style="color:#ff0000;font-weight:bold;">NEW for ExtJS 4</span></h1>
+    <p>You are looking for a Image Crop utility in Ext JS? <br />
+    A Clientside Image Crop, cropping on the serverside by Ajax call?<br />
+    Here you find a Ext JS Crop Library written by me for a Project. <br />
+    You can use the Code as you like, only the URL http://www.thomas-lauria.de/ has to be in the used Files / Code<br />
+    Questions? <a href="mailto:me@thomas-lauria.de">Mail me</a> or the use the <a href="https://github.com/thomaslauria/extjsimagecrop/issues">Git Issue Tracker</a>.
+    </p>
+    <p>
+      Links related to the Image Cropper: 
+    </p>
+    <ul>
+      <li><a href="https://github.com/thomaslauria/extjsimagecrop">Git Repository of the Image Cropper</a></li>
+      <li><a href="http://www.sencha.com/forum/showthread.php?113565-Image-Crop-Utility">Sencha Forum</a></li>
+      <li><a href="http://blog.thomas-lauria.de/archives/13-Ext-JS-Image-Crop-update.html">my blogentry</a></li>
+      <li><a href="image_crop_3.html">Old Ext 3 Version</a></li>
+    </ul>
+    <h2>Simple Example</h2>
+    <div id="FOO"></div>
+    <div id="output-1" style="color:red;"></div>
+    <script type="text/javascript">
+    Ext.onReady(function() {
+        /**
+         * Simple Example:
+         */
+        var crop = Ext.create('Ext.ux.ImageCrop', {
+          height: 165, 
+          width: 220,
+          src: '../images/hochschule-reutlingen_th.jpg',
+          // the cropper can also be quadratic
+          //quadratic: true,
+          renderTo: 'FOO'
+        });
+        crop.on('changeCrop', function(component,region) {
+          Ext.get('output-1').update('X Offset: '+region.x+' Y Offset: '+region.y+' Width: '+region.width+' Height: '+region.height);
+        });
+
+        /**
+         * Example with a Crop Window, triggered by a button:
+         */
+        Ext.create('Ext.Button', {
+          renderTo: 'crop-test-button',
+          text: 'Image Crop Window',
+          handler: function() {
+            //getting the image URL from whereever you want
+            var imageURL = '../images/hochschule-reutlingen_medium.jpg',
+                cw = new Extamples.CropWindow({
+                  imageUrl: imageURL,
+                  listeners:{
+                    save: function(){
+                      // handler if a crop was successfull, and the window was closed
+                    },
+                    scope: this
+                  }
+                });
+            cw.show();
+          }
+        });
+      });
+    </script>
+    <h3>Code to Simple Example</h3>
+    <pre>
+        var crop = Ext.create('Ext.ux.ImageCrop', {
+          height: 165, <span class="config-hint">//needed option</span>
+          width: 220, <span class="config-hint">//needed option</span>
+          src: '../images/hochschule-reutlingen_th.jpg', <span class="config-hint">//needed option, size should be the same as given as height and width, because image is treated as background image</span>
+          // the cropper can also be quadratic
+          //quadratic: true, <span class="config-hint">//optional, resize quadratic, default false</span>
+          //preserveRation: false, <span class="config-hint">//optional, default true</span>
+          renderTo: 'FOO' <span class="config-hint">//for demo purposes only</span>
+        });
+        
+        crop.on('changeCrop', function(component,region) {
+          Ext.get('output-1').update('X Offset: '+region.x+' Y Offset: '+region.y+' Width: '+region.width+' Height: '+region.height);
+        });
+        <span class="config-hint">
+        //valid events are: 
+        //resizeCrop: fires on resizing the crop box only
+        //moveCrop:   fires on moving the crop box only
+        //changeCrop: fires on both events
+        //the parameters are all the same: (component => the Ext.ux.ImageCrop instance,region => object with position and measurement of the crop box)
+        </span>
+    </pre>
+    <p>The JS Code is in <a href="Ext.ux.ImageCrop.js">Ext.ux.ImageCrop.js</a></p>
+    <h3>Example in a Window</h3>
+    <div id="crop-test-button"></div>
+    <div id="output-2" style="color:red;"></div>
+    <h3>Code to Example Window</h3>
+    <pre>
+        Ext.create('Ext.Button', {
+          renderTo: 'crop-test-button',
+          text: 'Image Crop Window',
+          handler: function() {
+            //getting the image URL from whereever you want
+            var imageURL = '../images/hochschule-reutlingen_medium.jpg',
+                cw = new Extamples.CropWindow({
+                  imageUrl: imageURL,
+                  listeners:{
+                    save: function(){
+                      // handler if a crop was successfull, and the window was closed
+                    },
+                    scope: this
+                  }
+                });
+            cw.show();
+          }
+        });
+    </pre>
+    <p>Additional JS Code is in <a href="Ext.ux.ImageCrop.js">Ext.ux.ImageCrop.js</a> and <a href="Extamples.CropWindow.js">Extamples.CropWindow.ui.js</a>
+    </p>
+  </body>
+</html>
